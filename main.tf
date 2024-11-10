@@ -55,10 +55,13 @@ resource "aws_s3_bucket_website_configuration" "tf_bucket" {
     index_document {
         suffix = "index.html"
     }
+    error_document {
+        key = "error.html"
+    }
 }
 
 # upload index.html
-resource "aws_s3_object" "file" {
+resource "aws_s3_object" "file-index" {
     depends_on = [
         aws_s3_bucket_acl.tf_bucket,
         aws_s3_bucket_website_configuration.tf_bucket,
@@ -66,6 +69,19 @@ resource "aws_s3_object" "file" {
     bucket  = aws_s3_bucket.tf_bucket.id
     key     = "index.html"
     source  = "index.html"
+    acl     = "public-read"
+    content_type    = "text/html"
+}
+
+# upload error.html
+resource "aws_s3_object" "file-error" {
+    depends_on = [
+        aws_s3_bucket_acl.tf_bucket,
+        aws_s3_bucket_website_configuration.tf_bucket,
+    ]
+    bucket  = aws_s3_bucket.tf_bucket.id
+    key     = "error.html"
+    source  = "error.html"
     acl     = "public-read"
     content_type    = "text/html"
 }

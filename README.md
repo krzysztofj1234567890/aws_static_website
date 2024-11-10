@@ -16,6 +16,12 @@ terraform plan
 terraform apply
 ```
 
+### Test
+
+```
+http://<bucket name>.s3-website.us-east-1.amazonaws.com/
+```
+
 ## Destroy
 
 ```
